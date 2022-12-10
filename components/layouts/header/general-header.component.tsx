@@ -23,7 +23,7 @@ const Header: FC<Props> = ({ variant }: Props) => {
               flexGrow: 1,
               fontWeight: 700,
               color: "inherit",
-              textDecoration: "none",
+              textDecoration: "none"
             }}
           >
             {" "}
@@ -32,7 +32,7 @@ const Header: FC<Props> = ({ variant }: Props) => {
         </NextLink>
         {variant == "general" && (
           <Box>
-            <NextLink href="/" passHref>
+            <NextLink href="/faq" passHref>
               <MUILink
                 variant="body2"
                 sx={{ color: "white", fontSize: 18, fontWeight: 600 }}
@@ -57,7 +57,7 @@ const GeneralHeader: FC<Props> = ({ variant }: Props) => {
   );
 };
 GeneralHeader.defaultProps = {
-  variant: "general",
+  variant: "general"
 };
 
 export default GeneralHeader;

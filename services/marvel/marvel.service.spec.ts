@@ -1,7 +1,7 @@
 import {
   getCharacter,
   getComic,
-  getComics,
+  getComics
 } from "dh-marvel/services/marvel/marvel.service";
 import comics from "dh-marvel/test/mocks/comics";
 import character from "dh-marvel/test/mocks/character";
@@ -35,7 +35,7 @@ describe("MarvelService", () => {
           ...comic,
           price: 72,
           oldPrice: 87,
-          stock: 2,
+          stock: 2
         });
       });
     });
@@ -46,7 +46,7 @@ describe("MarvelService", () => {
           ...comicWithoutStock,
           price: 48,
           oldPrice: 48,
-          stock: 0,
+          stock: 0
         });
       });
     });

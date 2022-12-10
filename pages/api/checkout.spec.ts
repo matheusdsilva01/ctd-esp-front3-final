@@ -3,7 +3,7 @@ import handleCheckout, {
   invalidAddress,
   validCard,
   withoutAuthorizationCard,
-  withoutFundsCard,
+  withoutFundsCard
 } from "dh-marvel/pages/api/checkout.route";
 import { CheckoutInput } from "dh-marvel/features/checkout/checkout.types";
 import {
@@ -12,7 +12,7 @@ import {
   ERROR_CARD_WITHOUT_FUNDS,
   ERROR_INCORRECT_ADDRESS,
   ERROR_METHOD_NOT_ALLOWED,
-  ERROR_SERVER,
+  ERROR_SERVER
 } from "dh-marvel/services/checkout/checkout.errors";
 
 describe("Checkout", () => {
@@ -20,11 +20,11 @@ describe("Checkout", () => {
     it("should return a 400 error", async () => {
       const order = {
         customer: { address: {} },
-        card: { number: validCard },
+        card: { number: validCard }
       } as CheckoutInput;
       const { req, res } = createMocks({
         method: "POST",
-        body: order,
+        body: order
       });
       await handleCheckout(req, res);
       expect(res._getStatusCode()).toBe(200);
@@ -36,7 +36,7 @@ describe("Checkout", () => {
   describe("when sending a non POST request", () => {
     it("should return a 405 error", async () => {
       const { req, res } = createMocks({
-        method: "GET",
+        method: "GET"
       });
       await handleCheckout(req, res);
       expect(res._getStatusCode()).toBe(405);
@@ -50,8 +50,8 @@ describe("Checkout", () => {
       const { req, res } = createMocks({
         method: "POST",
         body: {
-          customer: { address: { address2: invalidAddress } },
-        } as CheckoutInput,
+          customer: { address: { address2: invalidAddress } }
+        } as CheckoutInput
       });
       await handleCheckout(req, res);
       expect(res._getStatusCode()).toBe(400);
@@ -64,7 +64,7 @@ describe("Checkout", () => {
     it("should return a 500 error", async () => {
       const { req, res } = createMocks({
         method: "POST",
-        body: {} as CheckoutInput,
+        body: {} as CheckoutInput
       });
       await handleCheckout(req, res);
       expect(res._getStatusCode()).toBe(500);
@@ -79,8 +79,8 @@ describe("Checkout", () => {
         method: "POST",
         body: {
           customer: { address: {} },
-          card: { number: withoutFundsCard },
-        } as CheckoutInput,
+          card: { number: withoutFundsCard }
+        } as CheckoutInput
       });
       await handleCheckout(req, res);
       expect(res._getStatusCode()).toBe(400);
@@ -95,8 +95,8 @@ describe("Checkout", () => {
         method: "POST",
         body: {
           customer: { address: {} },
-          card: { number: withoutAuthorizationCard },
-        } as CheckoutInput,
+          card: { number: withoutAuthorizationCard }
+        } as CheckoutInput
       });
       await handleCheckout(req, res);
       expect(res._getStatusCode()).toBe(400);
@@ -111,8 +111,8 @@ describe("Checkout", () => {
         method: "POST",
         body: {
           customer: { address: {} },
-          card: { number: "4111" },
-        } as CheckoutInput,
+          card: { number: "4111" }
+        } as CheckoutInput
       });
       await handleCheckout(req, res);
       expect(res._getStatusCode()).toBe(400);

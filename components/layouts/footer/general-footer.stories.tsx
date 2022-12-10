@@ -5,7 +5,7 @@ import GeneralFooter from "dh-marvel/components/layouts/footer/general-footer.co
 export default {
   title: "Layout/Footer/GeneralFooter",
   component: GeneralFooter,
-  argTypes: {},
+  argTypes: {}
 } as ComponentMeta<typeof GeneralFooter>;
 
 const Template: ComponentStory<typeof GeneralFooter> = (args: any) => (

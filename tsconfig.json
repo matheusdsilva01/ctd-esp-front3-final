@@ -23,6 +23,9 @@
       "dh-marvel/components/*": [
         "components/*"
       ],
+      "dh-marvel/util/*": [
+        "util/*"
+      ],
       "dh-marvel/services/*": [
         "services/*"
       ],
@@ -31,6 +34,9 @@
       ],
       "dh-marvel/pages/*": [
         "pages/*"
+      ],
+      "dh-marvel/context/*": [
+        "context/*"
       ],
       "dh-marvel/styles/*": [
         "styles/*"

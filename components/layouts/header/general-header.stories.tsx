@@ -5,7 +5,7 @@ import GeneralHeader from "dh-marvel/components/layouts/header/general-header.co
 export default {
   title: "Layout/Header/GeneralHeader",
   component: GeneralHeader,
-  argTypes: {},
+  argTypes: {}
 } as ComponentMeta<typeof GeneralHeader>;
 
 const Template: ComponentStory<typeof GeneralHeader> = (args: any) => (
@@ -17,5 +17,5 @@ Primary.args = {};
 
 export const Simple = Template.bind({});
 Simple.args = {
-  variant: "simple",
+  variant: "simple"
 };

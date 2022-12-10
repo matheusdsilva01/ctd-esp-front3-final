@@ -11,7 +11,7 @@ interface BodySingleProps extends PropsWithChildren {
 const BodySingle: FC<BodySingleProps> = ({
   title,
   containerProps,
-  children,
+  children
 }: BodySingleProps) => {
   return (
     <Container maxWidth="xl" {...containerProps}>

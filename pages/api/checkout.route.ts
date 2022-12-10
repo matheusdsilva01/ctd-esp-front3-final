@@ -6,7 +6,7 @@ import {
   ERROR_CARD_WITHOUT_FUNDS,
   ERROR_INCORRECT_ADDRESS,
   ERROR_METHOD_NOT_ALLOWED,
-  ERROR_SERVER,
+  ERROR_SERVER
 } from "dh-marvel/services/checkout/checkout.errors";
 
 const serverError = "error";
@@ -52,7 +52,6 @@ export default function handler(
     }
     res.status(400).json(ERROR_CARD_DATA_INCORRECT);
   } catch (err) {
-    console.log(err);
     res.status(500).json(ERROR_SERVER);
   }
 }
