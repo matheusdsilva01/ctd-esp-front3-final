@@ -3,17 +3,12 @@ import { CheckoutContext } from 'dh-marvel/context/checkout.context';
 import { useContext, useEffect } from 'react';
 import { priceFormatter } from 'dh-marvel/util/formatPrice';
 
-const SucessPage = () => {
+const SuccessPage = () => {
   const { checkout } = useContext(CheckoutContext);
 
   if (!checkout) {
     return <h3>null</h3>;
   }
-
-  useEffect(() => {
-    console.log(checkout);
-    console.log(checkout?.order?.image);
-  }, [])
 
   const { customer, order } = checkout;
   const { address } = customer;
@@ -45,4 +40,4 @@ const SucessPage = () => {
   )
 }
 
-export default SucessPage;
+export default SuccessPage;

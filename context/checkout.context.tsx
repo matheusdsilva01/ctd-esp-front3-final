@@ -7,7 +7,6 @@ type defaultValue = {
 };
 
 export const CheckoutContext = createContext({} as defaultValue);
-
 interface CheckoutContextProvider {
     children: ReactNode;
 }

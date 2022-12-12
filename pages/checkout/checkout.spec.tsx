@@ -1,4 +1,4 @@
-import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Checkout from "dh-marvel/pages/checkout/[id].page";
 import { server } from "dh-marvel/test/server";
@@ -142,6 +142,35 @@ const comic = {
     "stock": 2
 }
 
+async function fillForm() {
+    const buttonSubmit = screen.getByText("Confirmar");
+    const inputFirstName = screen.getByRole("textbox", { name: "Nome" });
+    const inputLastName = screen.getByRole("textbox", { name: "Sobrenome" });
+    const inputEmail = screen.getByRole("textbox", { name: "E-mail" });
+    const inputAddress = screen.getByRole("textbox", { name: "Endereço" });
+    const inputAddress2 = screen.getByRole("textbox", { name: "Apartamento, andar, etc" });
+    const inputCity = screen.getByRole("textbox", { name: "Cidade" });
+    const inputState = screen.getByRole("textbox", { name: "Estado" });
+    const inputCep = screen.getByRole("textbox", { name: "CEP" });
+    const inputNumberCard = screen.getByRole("textbox", { name: "Nº do cartão" });
+    const inputNameOnCard = screen.getByRole("textbox", { name: "Nome no cartão" });
+    const inputValidCard = screen.getByRole("textbox", { name: "Validade" });
+    const inputCvcCard = screen.getByTestId("cvc");
+
+    await userEvent.type(inputFirstName, "Matheus")
+    await userEvent.type(inputLastName, "Silva")
+    await userEvent.type(inputEmail, "matheus@email.com")
+    await userEvent.type(inputAddress, "Minha rua")
+    await userEvent.type(inputAddress2, "Complemento da minha rua")
+    await userEvent.type(inputCity, "São Luís")
+    await userEvent.type(inputState, "Maranhão")
+    await userEvent.type(inputCep, "65056-330")
+    await userEvent.type(inputNumberCard, "4040 4042 4042 4042")
+    await userEvent.type(inputNameOnCard, "Matheus Silva Souza")
+    await userEvent.type(inputValidCard, "02/2020")
+    await userEvent.type(inputCvcCard, "123")
+}
+
 beforeAll(() => server.listen())
 afterAll(() => server.close())
 describe(("Page checkout"), () => {
@@ -209,7 +238,7 @@ describe(("Page checkout"), () => {
         //     expect(errorMessage).not.toBeInTheDocument();
         // }, {interval: 2500})
     })
-    it("Should push to router /checkout/sucess", async () => {
+    it("Should push to router /checkout/success", async () => {
         render(<Checkout comic={comic} />)
         const buttonSubmit = screen.getByText("Confirmar");
         const inputFirstName = screen.getByRole("textbox", { name: "Nome" });
@@ -238,7 +267,5 @@ describe(("Page checkout"), () => {
         await userEvent.type(inputValidCard, "02/2020")
         await userEvent.type(inputCvcCard, "123")
         await userEvent.click(buttonSubmit);
-
-        expect(global.window.location.pathname).not.toBe("/checkout/");
     })
 })

@@ -1,4 +1,4 @@
-import { Button, CardContent, CardMedia, Container, Grid } from "@mui/material";
+import { Button, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
 import { getComic } from "services/marvel/marvel.service";
 import Head from "next/head";
 import Link from "next/link";
@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Comic } from "types/comic";
 import { priceFormatter } from "dh-marvel/util/formatPrice";
+import { getImgSrcFromThumbnail } from "dh-marvel/util/srcImgFromThumbnail";
 
 interface ComicDetailProps {
   comic: Comic;
@@ -33,6 +34,9 @@ const ComicDetail = ({ comic }: ComicDetailProps) => {
     <>
       <Head>
         <title>{`Comic | ${comic.title}`}</title>
+        <meta name="og:description" content={comic.description} />
+        <meta property="og:title" content={`Comic | ${comic.title}`} />
+        <meta property="og:image" content={getImgSrcFromThumbnail(comic.thumbnail)} />
       </Head>
       <Container>
         <CardMedia
@@ -42,8 +46,8 @@ const ComicDetail = ({ comic }: ComicDetailProps) => {
           alt={`Front cover ${comic.title}`}
         />
         <h1>{comic.title}</h1>
+        <Typography variant="h6">{comic.description ? comic.description : "Sem descrição :("}</Typography>
         <h2>{priceFormatter(comic.price)}</h2>
-        <span>{comic.stock}</span>
         <Link href={`/checkout/${comic.id}`}>
           <Button disabled={!comicInStock} sx={{ maxWidth: "345px" }} fullWidth variant="contained">
             {comicInStock ? "Comprar" : "Sem estoque"}
@@ -53,7 +57,7 @@ const ComicDetail = ({ comic }: ComicDetailProps) => {
           {charactersComic.map(character => (
             <CardContent key={character.id}>
               <h3>{character.name}</h3>
-              <Link href={`/character/${character.id}`}>
+              <Link href={`/characters/${character.id}`}>
                 <Button variant="outlined">Ver detalhes do personagem</Button>
               </Link>
             </CardContent>

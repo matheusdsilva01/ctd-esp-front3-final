@@ -5,6 +5,7 @@ export type Comic = {
     path: string;
     extension: string;
   };
+  description: string;
   price: number;
   stock: number;
   characters: characters;

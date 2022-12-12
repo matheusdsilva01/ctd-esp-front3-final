@@ -2,10 +2,19 @@ import { Accordion, AccordionSummary, Typography, AccordionDetails, Container } 
 import { ExpandMore } from '@mui/icons-material';
 import React from 'react'
 import { faqsData } from 'dh-marvel/components/faqs/faqsData';
+import Head from 'next/head';
 
 const Faq = () => {
   return (
     <>
+    <Head>
+        <title>FAQ | List Comics</title>
+        <meta name="description" content="Pmain doubts" />
+        <meta name="og:description" content="Pmain doubts" />
+        <meta property="og:title" content="FAQ | List Comics" />
+        <meta property="og:image" content="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Container>
         {faqsData.map(faq => (
           <Accordion key={faq.id}>

@@ -18,6 +18,11 @@ const CharacterDetail = ({ character }: CharacterDetailProps) => {
     <>
       <Head>
         <title>{`Character | ${character.name}`}</title>
+        <meta name="description" content={`${character.description}`} />
+        <meta property="og:title" content={`Character | ${character.name}`} />
+        <meta property="og:image" content={getImgSrcFromThumbnail(character.thumbnail)} />
+        <meta name="og:description" content={`${character.description}`} />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container sx={{ marginTop: "10px" }}>
         <CardMedia

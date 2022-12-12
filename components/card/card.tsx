@@ -72,7 +72,7 @@ const CardWrapper = ({ imgSrc, title, id }: cardProps) => {
         <Button size="medium" variant="contained">
           Comprar
         </Button>
-        <Link href={`/comic/${id}`}>
+        <Link href={`/comics/${id}`}>
           <Button size="medium" variant="outlined">
             Ver detalhes
           </Button>

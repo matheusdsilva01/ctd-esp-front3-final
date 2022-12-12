@@ -42,7 +42,7 @@ const Checkout: NextPage<CheckoutPageProps> = ({ comic }: CheckoutPageProps) => 
 
         await axios.post("http://localhost:3000/api/checkout", payload).then(res => {
             handleCheckout(res.data.data);
-            router.push("/checkout/sucess")
+            router.push("/checkout/purchase-confirmation")
         }).catch(err => {
             setOpen(true);
             setMessageError(err.response.data.message);
