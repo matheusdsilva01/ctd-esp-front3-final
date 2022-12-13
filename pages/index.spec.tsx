@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Index from "dh-marvel/pages/index.page";
+import { server, rest } from "dh-marvel/test/server";
 
 const Comics = [{
   "title": "X-Men: Days of Future Past (Trade Paperback)",
@@ -20,8 +21,11 @@ const Comics = [{
 
 describe("IndexPage", () => {
   describe("when rendering default", () => {
+    beforeAll(() => server.listen())
+    afterAll(() => server.close())
     it("should render the title", () => {
-      render(<Index comics={Comics} />);
+      server.use()
+      render(<Index />);
       const title = screen.getByText("Sample");
       expect(title).toBeInTheDocument();
     });

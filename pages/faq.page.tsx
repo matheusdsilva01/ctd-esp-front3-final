@@ -9,8 +9,8 @@ const Faq = () => {
     <>
     <Head>
         <title>FAQ | List Comics</title>
-        <meta name="description" content="Pmain doubts" />
-        <meta name="og:description" content="Pmain doubts" />
+        <meta name="description" content="FAQ's Comics" />
+        <meta name="og:description" content="FAQ's Comics" />
         <meta property="og:title" content="FAQ | List Comics" />
         <meta property="og:image" content="/favicon.ico" />
         <link rel="icon" href="/favicon.ico" />
