@@ -10,11 +10,9 @@ import { getImgSrcFromThumbnail } from "dh-marvel/util/srcImgFromThumbnail";
 
 interface ComicDetailProps {
   comic: Comic;
-  date: string;
 }
 
 const ComicDetail = ({ comic }: ComicDetailProps) => {
-  const router = useRouter();
   const comicInStock = !!comic?.stock;
   const imgSrc = `${comic?.thumbnail.path}.${comic?.thumbnail.extension}`;
   const charactersComic = comic?.characters.items.map(item => {
@@ -26,7 +24,7 @@ const ComicDetail = ({ comic }: ComicDetailProps) => {
     };
   });
 
-  if (router.isFallback) {
+  if (!comic) {
     return <div>Loading...</div>;
   }
 
