@@ -3,7 +3,7 @@ import CharacterDetail from "./[id].page"
 const character = {
     "id": "1009522",
     "name": "Pyro",
-    "description": "",
+    "description": "Character marvel",
     "modified": "2013-10-15T19:40:03-0400",
     "thumbnail": {
         "path": "http://i.annihil.us/u/prod/marvel/i/mg/e/c0/4ce5a0eeab435",
@@ -339,5 +339,17 @@ describe("Page details character", () => {
         render(<CharacterDetail character={character} />);
         const nameCharacter = screen.getByText("Pyro");
         expect(nameCharacter).toBeInTheDocument();
+    })
+    it("Should render the text 'loading...' in screen when not contain character", () => {
+        //@ts-ignore
+        render(<CharacterDetail character={null} />);
+        const messageLoading = screen.getByText(/loading.../i);
+        expect(messageLoading).toBeInTheDocument();
+    })
+    it("Should render the text 'O personagem não possui descrição :(' in screen when character contain description empty", () => {
+        const characterWithoutDescription = {...character, description: ""}
+        render(<CharacterDetail character={characterWithoutDescription} />)
+        const messageWithoutDescription = screen.getByText(/O personagem não possui descrição :\(/i);
+        expect(messageWithoutDescription).toBeInTheDocument();
     })
 })

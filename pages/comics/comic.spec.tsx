@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react"
-import ComicDetail from "./[id].page"
+import { render, screen } from "@testing-library/react";
+import ComicDetail from "./[id].page";
 
 const comic = {
     "id": 1332,
@@ -167,5 +167,23 @@ describe("Page detail comic", () => {
         render(<ComicDetail comic={comic} />)
         const titleComic = await screen.findByText(/X-Men: Days of Future Past \(Trade Paperback\)/i)
         expect(titleComic).toBeInTheDocument();
+    });
+    it("Should render the text 'loading...' in screen when not contain comic", () => {
+        //@ts-ignore
+        render(<ComicDetail comic={null} />)
+        const messageLoading = screen.getByText(/Loading.../i);
+        expect(messageLoading).toBeInTheDocument();
+    })
+    it("Should render the text 'Sem descrição :(' in screen when comic contain description empty", () => {
+        const comicWithoutDescription = {...comic, description: ""}
+        render(<ComicDetail comic={comicWithoutDescription} />)
+        const messageWithoutDescription = screen.getByText(/Sem descrição :\(/i);
+        expect(messageWithoutDescription).toBeInTheDocument();
+    })
+    it("Should render the text 'Sem estoque' in screen when comic is not in stock", () => {
+        const comicWithoutStock = {...comic, stock: 0}
+        render(<ComicDetail comic={comicWithoutStock} />)
+        const messageLoading = screen.getByText(/Sem estoque/i);
+        expect(messageLoading).toBeInTheDocument();
     })
 })
