@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, Button, CardMedia, Container, FormControl, Paper, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CardMedia, Container, FormControl, Paper, Snackbar, TextField, Typography, useMediaQuery } from "@mui/material";
 import axios from "axios";
 import LayoutCheckout from "dh-marvel/components/layouts/layout-checkout";
 import { CheckoutContext } from "../../context/checkout.context";
@@ -13,6 +13,8 @@ import { Comic } from "types/comic";
 import { priceFormatter } from "dh-marvel/util/formatPrice";
 import { getImgSrcFromThumbnail } from "dh-marvel/util/srcImgFromThumbnail";
 import { checkoutSchema } from "dh-marvel/util/yupValidations/checkoutSchema";
+import Input from 'dh-marvel/components/input/input';
+import { width } from '@mui/system';
 
 interface CheckoutPageProps {
     comic: Comic;
@@ -27,6 +29,7 @@ const Checkout: NextPage<CheckoutPageProps> = ({ comic }: CheckoutPageProps) => 
     const [open, setOpen] = useState(false);
     const [messageError, setMessageError] = useState("");
     const router = useRouter();
+    const matches = useMediaQuery('(min-width:1300px)');
     const { handleCheckout } = useContext(CheckoutContext);
 
     const onSubmit = async (data: CheckoutInput) => {
@@ -51,180 +54,84 @@ const Checkout: NextPage<CheckoutPageProps> = ({ comic }: CheckoutPageProps) => 
 
     return (
         <LayoutCheckout>
-            <Container maxWidth="lg">
-                <FormControl noValidate component={"form"} onSubmit={handleSubmit(onSubmit)} >
-                    <Paper sx={{ background: "#f0f0f0", padding: 2, rowGap: 2, display: "flex", flexWrap: "wrap" }} elevation={3}>
-                        <Typography sx={{ flexBasis: "100%" }}>Dados pessoais: </Typography>
-                        <Box>
-                            <TextField {...register("customer.name")} label="Nome" type="text" error={!!errors.customer?.name} required />
-                            {!!errors.customer?.name && (
-                                <Typography
-                                    color="red"
-                                    gutterBottom
-                                    noWrap
-                                    variant="body1"
-                                    component="div"
-                                >
-                                    {`${errors.customer?.name.message}`}
-                                </Typography>)}
+            <Container sx={{display: "flex", flexDirection: matches ? "row": "column"}}>
+                <Container maxWidth="lg">
+                    <FormControl noValidate component={"form"} onSubmit={handleSubmit(onSubmit)}>
+                        <Box sx={{ display: "flex", flexDirection: "column", gap: "20px", marginBottom: "20px" }}>
+                            <Paper sx={{ background: "#f0f0f0", padding: 2, rowGap: 2, display: "flex", flexWrap: "wrap" }} elevation={3}>
+                                <Typography sx={{ flexBasis: "100%" }}>Dados pessoais: </Typography>
+                                <Box>
+                                    <Input error={errors.customer?.name} register={register("customer.name")} label="Nome" required />
+                                </Box>
+                                <Box>
+                                    <Input error={errors.customer?.lastname} register={register("customer.lastname")} label="Sobrenome" required />
+                                </Box>
+                                <Box>
+                                    <Input error={errors.customer?.email} register={register("customer.email")} label="E-mail" required type="email" />
+                                </Box>
+                            </Paper>
+                            <Paper sx={{ background: "#f0f0f0", padding: 2, rowGap: 2, display: "flex", flexWrap: "wrap" }} elevation={3}>
+                                <Typography sx={{ flexBasis: "100%" }}>Endereço: </Typography>
+                                <Box>
+                                    <Input error={errors.customer?.address?.address1} register={register("customer.address.address1")} label="Endereço" required />
+                                </Box>
+                                <Box>
+                                    <Input error={errors.customer?.address?.address2} register={register("customer.address.address2")} label="Apartamento, andar, etc" required={false} />
+                                </Box>
+                                <Box>
+                                    <Input error={errors.customer?.address?.city} register={register("customer.address.city")} label="Cidade" required />
+                                </Box>
+                                <Box>
+                                    <Input error={errors.customer?.address?.state} register={register("customer.address.state")} label="Estado" required />
+                                </Box>
+                                <Box>
+                                    <Input error={errors.customer?.address?.zipCode} register={register("customer.address.zipCode")} label="CEP" required />
+                                </Box>
+                            </Paper>
                         </Box>
-                        <Box>
-                            <TextField {...register("customer.lastname")} label="Sobrenome" type="text" error={!!errors.customer?.lastname} required />
-                            {!!errors.customer?.lastname && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.customer?.lastname.message}`}
-                            </Typography>}
-                        </Box>
-                        <Box>
-                            <TextField {...register("customer.email")} label="E-mail" type="email" error={!!errors.customer?.email} required />
-                            {!!errors.customer?.email && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.customer?.email.message}`}
-                            </Typography>}
-                        </Box>
-                    </Paper>
-                    <Paper sx={{ background: "#f0f0f0", padding: 2, rowGap: 2, display: "flex", flexWrap: "wrap" }} elevation={3}>
-                        <Typography sx={{ flexBasis: "100%" }}>Endereço: </Typography>
-                        <Box>
-                            <TextField {...register("customer.address.address1")} label="Endereço" type="text" error={!!errors.customer?.address?.address1} required />
-                            {!!errors.customer?.address?.address1 && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.customer?.address?.address1.message}`}
-                            </Typography>}
-                        </Box>
-                        <Box>
-                            <TextField {...register("customer.address.address2")} label="Apartamento, andar, etc" type="text" error={!!errors.customer?.address?.address2} />
-                        </Box>
-                        <Box>
-                            <TextField {...register("customer.address.city")} label="Cidade" type="text" error={!!errors.customer?.address?.city} required />
-                            {!!errors.customer?.address?.city && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.customer?.address?.city.message}`}
-                            </Typography>}
-                        </Box>
-                        <Box>
-                            <TextField {...register("customer.address.state")} label="Estado" type="text" error={!!errors.customer?.address?.state} required />
-                            {!!errors.customer?.address?.state && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.customer?.address?.state.message}`}
-                            </Typography>}
-                        </Box>
-                        <Box>
-                            <TextField {...register("customer.address.zipCode")} label="CEP" type="text" error={!!errors.customer?.address?.zipCode} required />
-                            {!!errors.customer?.address?.zipCode && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.customer?.address?.zipCode.message}`}
-                            </Typography>}
-                        </Box>
-                    </Paper>
-                    <Paper sx={{ background: "#f0f0f0", padding: 2, rowGap: 2, display: "flex", flexWrap: "wrap" }} elevation={3}>
-                        <Typography sx={{ flexBasis: "100%" }}>Dados de pagamento: </Typography>
-                        <Box>
-                            <TextField {...register("card.number")} label="Nº do cartão" inputProps={{ maxLength: 19 }} type="tel" inputMode="numeric" error={!!errors.card?.number} required />
-                            {!!errors.card?.number && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.card.number.message}`}
-                            </Typography>}
-                        </Box>
-                        <Box>
-                            <TextField {...register("card.nameOnCard")} label="Nome no cartão" type="text" error={!!errors.card?.nameOnCard} required />
-                            {!!errors.card?.nameOnCard && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.card?.nameOnCard?.message}`}
-                            </Typography>}
-                        </Box>
-                        <Box>
-                            <TextField {...register("card.expDate")} label="Validade" type="text" error={!!errors.card?.expDate} required />
-                            {!!errors.card?.expDate && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.card?.expDate?.message}`}
-                            </Typography>}
-                        </Box>
-                        <Box>
-                            <TextField {...register("card.cvc")} inputProps={{ maxLength: 3, "data-testid":"cvc" }} label="CVC" type="password" error={!!errors.card?.cvc} required />
-                            {!!errors.card?.cvc && <Typography
-                                color="red"
-                                gutterBottom
-                                noWrap
-                                variant="body1"
-                                component="div"
-                            >
-                                {`${errors.card?.cvc?.message}`}
-                            </Typography>}
-                        </Box>
-                    </Paper>
-                    <Button type="submit" variant="contained"  >Confirmar</Button>
-                </FormControl>
-            </Container>
+                        <Paper sx={{ background: "#f0f0f0", padding: 2, rowGap: 2, display: "flex", flexWrap: "wrap" }} elevation={3}>
+                            <Typography sx={{ flexBasis: "100%" }}>Dados de pagamento: </Typography>
+                            <Box>
+                                <Input error={errors.card?.number} register={register("card.number")} label="Nº do cartão" inputMode="numeric" maxLength={19} required />
+                            </Box>
+                            <Box>
+                                <Input error={errors.card?.nameOnCard} register={register("card.nameOnCard")} label="Nome no cartão" required />
+                            </Box>
+                            <Box>
+                                <Input error={errors.card?.expDate} register={register("card.expDate")} label="Validade" required />
+                            </Box>
+                            <Box>
+                                <Input error={errors.card?.cvc} register={register("card.cvc")} label="CVC" type="password" data-testid="cvc" maxLength={3} required />
+                            </Box>
+                        </Paper>
+                        <Button type="submit" variant="contained"  >Confirmar</Button>
+                    </FormControl>
+                </Container>
 
-            <Container maxWidth="sm">
-                <Paper sx={{ background: "#f0f0f0", padding: 2, display: "flex", flexDirection: "column", rowGap: 2 }} elevation={3}>
-                    <CardMedia
-                        component="img"
-                        src={getImgSrcFromThumbnail(comic.thumbnail)}
-                        sx={{ width: "200px" }}
-                    />
-                    <Typography fontSize={18} ><strong>Título:</strong> {comic.title}</Typography>
-                    <Typography fontSize={18} ><strong>Preço:</strong> {priceFormatter(comic.price)}</Typography>
-                </Paper>
+                <Container maxWidth="sm">
+                    <Paper sx={{ background: "#f0f0f0", padding: 2, display: "flex", flexDirection: "column", rowGap: 2 }} elevation={3}>
+                        <CardMedia
+                            component="img"
+                            src={getImgSrcFromThumbnail(comic.thumbnail)}
+                            sx={{ width: "200px" }}
+                        />
+                        <Typography fontSize={18} ><strong>Título:</strong> {comic.title}</Typography>
+                        <Typography fontSize={18} ><strong>Preço:</strong> {priceFormatter(comic.price)}</Typography>
+                    </Paper>
+                </Container>
+                <Snackbar
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    open={open}
+                    autoHideDuration={2000}
+                    key={1}
+                    data-testid="alert-error"
+                    onClose={() => setOpen(false)}
+                >
+                    <div>
+                        <Alert severity="error">{messageError}</Alert>
+                    </div>
+                </Snackbar>
             </Container>
-            <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                open={open}
-                autoHideDuration={2000}
-                key={1}
-                data-testid="alert-error"
-                onClose={() => setOpen(false)}
-            >
-                <div>
-                    <Alert severity="error">{messageError}</Alert>
-                </div>
-            </Snackbar>
         </LayoutCheckout >
     )
 }

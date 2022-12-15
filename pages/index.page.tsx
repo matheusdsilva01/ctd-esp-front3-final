@@ -2,9 +2,7 @@ import { Grid, Pagination, Stack } from "@mui/material";
 import Card from "dh-marvel/components/card/card";
 import BodySingle from "dh-marvel/components/layouts/body/single/body-single";
 import { getComics } from "dh-marvel/services/marvel/marvel.service";
-import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface Comic {
@@ -23,16 +21,15 @@ const Index = () => {
   const handleChange = (event: ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
+
   useEffect(() => {
-    (async () => {
-      const data = await getComics((page - 1) * 12, 12).then(res => {
+      getComics((page - 1) * 12, 12).then(res => {
         setTotal(Number((res.data.total / 12).toFixed()));
-        return res.data.results.map(({ title, id, thumbnail }: Comic) => {
+        const data = res.data.results.map(({ title, id, thumbnail }: Comic) => {
         return { title, id, thumbnail };
       })
-    })
       setComics(data)
-    })()
+    })
   }, [page])
 
   return (
