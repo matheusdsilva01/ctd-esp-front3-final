@@ -31,6 +31,7 @@ const Checkout: NextPage<CheckoutPageProps> = ({ comic }: CheckoutPageProps) => 
     const router = useRouter();
     const matches = useMediaQuery('(min-width:1300px)');
     const { handleCheckout } = useContext(CheckoutContext);
+    const hostname = process.env.NEXT_PUBLIC_HOSTNAME;
 
     const onSubmit = async (data: CheckoutInput) => {
         const payload = {
@@ -42,8 +43,7 @@ const Checkout: NextPage<CheckoutPageProps> = ({ comic }: CheckoutPageProps) => 
                 price: comic.price
             }
         };
-
-        await axios.post("http://localhost:3000/api/checkout", payload).then(res => {
+        await axios.post(`${hostname}/api/checkout`, payload).then(res => {
             handleCheckout(res.data.data);
             router.push("/checkout/purchase-confirmation")
         }).catch(err => {
@@ -51,7 +51,8 @@ const Checkout: NextPage<CheckoutPageProps> = ({ comic }: CheckoutPageProps) => 
             setMessageError(err.response.data.message);
         });
     };
-
+    
+    console.log(process.env);
     return (
         <LayoutCheckout>
             <Container sx={{display: "flex", flexDirection: matches ? "row": "column"}}>
